@@ -85,7 +85,7 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
     currentFirstPosList = isLowerDrawing ? lowerFirstPosList : firstPosList
     currentPath = currentMovePath[letterNum][stepCount]
     currentlineWidthList = isLowerDrawing ? lowerLineWidthList : lineWidthList
-
+    currentLingLength = currentlineWidthList[letterNum]
     const explainVoices = ['04', '05', '07', '10']
 
     const preName = prePathUrl() + 'images/SB01/SB01_Letter-Interactive/SB_01_' + letterTurnList[currentLetterNum] + '_'
@@ -183,8 +183,7 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
         playAutoAnimation()
 
         parentObject.current.className = 'aniObject'
-        currentlineWidthList = isLowerDrawing ? lowerLineWidthList : lineWidthList
-
+        
 
         // reviewFunc()
 
@@ -273,8 +272,9 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
         currentMovePath = isLowerDrawing ? lowerMovePath : movePath
         currentFirstPosList = isLowerDrawing ? lowerFirstPosList : firstPosList
         currentPath = currentMovePath[letterNum][stepCount]
-        currentlineWidthList = isLowerDrawing ? lowerLineWidthList : lineWidthList
-
+        currentlineWidthList = isLowerDrawing ? lineWidthList : lowerLineWidthList
+        currentLingLength = currentlineWidthList[letterNum]
+        
         setTimeout(() => {
             drawingRef.current.style.WebkitMaskImage = 'url("./images/' + lowerPrepath + 'Gray.svg")'
             drawingRef.current.style.WebkitMaskPosition = lowerMaskInfoList[letterNum].position
