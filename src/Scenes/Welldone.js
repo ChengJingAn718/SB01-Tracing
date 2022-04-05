@@ -226,7 +226,6 @@ export default function Scene18({ nextFunc, _geo, audioList }) {
                         cursor: 'pointer',
                     }}
                     onClick={() => {
-                        audioList.clickAudio.play().catch(error => { })
                         setTimeout(() => {
                             nextFunc();
                         }, 200);
