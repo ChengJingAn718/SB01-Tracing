@@ -84,7 +84,7 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
     currentMovePath = isLowerDrawing ? lowerMovePath : movePath
     currentFirstPosList = isLowerDrawing ? lowerFirstPosList : firstPosList
     currentPath = currentMovePath[letterNum][stepCount]
-    currentlineWidthList = isLowerDrawing ? lineWidthList : lowerLineWidthList
+    currentlineWidthList = isLowerDrawing ? lowerLineWidthList : lineWidthList
 
     const explainVoices = ['04', '05', '07', '10']
 
@@ -183,7 +183,8 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
         playAutoAnimation()
 
         parentObject.current.className = 'aniObject'
-        currentLingLength = currentlineWidthList[letterNum]
+        currentlineWidthList = isLowerDrawing ? lowerLineWidthList : lineWidthList
+
 
         // reviewFunc()
 
@@ -236,10 +237,7 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
             animationRef.current.className = 'hideObject'
             drawingPanel.current.className = 'showObject'
             markParentRef.current.className = 'showObject'
-            lowerCaseRef.current.className = 'showObject'
-
-            showingImg.current.className = 'appear'
-
+            lowerCaseRef.current.className = 'commonButton'
             isTracingStarted = true;
         }, 300);
         subObjectsRef.current.className = 'appear'
@@ -275,7 +273,7 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
         currentMovePath = isLowerDrawing ? lowerMovePath : movePath
         currentFirstPosList = isLowerDrawing ? lowerFirstPosList : firstPosList
         currentPath = currentMovePath[letterNum][stepCount]
-        currentlineWidthList = isLowerDrawing ? lineWidthList : lowerLineWidthList
+        currentlineWidthList = isLowerDrawing ? lowerLineWidthList : lineWidthList
 
         setTimeout(() => {
             drawingRef.current.style.WebkitMaskImage = 'url("./images/' + lowerPrepath + 'Gray.svg")'
@@ -313,7 +311,7 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
             }, 700);
         }, 300);
 
-        
+
         audioList.bodyAudio1.pause()
         audioList.bodyAudio1.currentTime = 0;
         timerList.map(timer => clearTimeout(timer))
@@ -762,7 +760,7 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
                                                             lowerCaseRef.current.className = 'appear'
                                                             setTimeout(() => {
                                                                 lowerCaseRef.current.className = 'commonButton'
-                                                            }, 500);
+                                                            }, 300);
 
                                                             outLineRefList[repeatStep].current.setClass('disappear')
 
