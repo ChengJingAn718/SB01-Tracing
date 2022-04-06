@@ -16,12 +16,12 @@ let backAudio = loadSound('bMusic', true)
 backAudio.loop = true;
 backAudio.volume = .1;
 
-const currentSceneNumber = 10;
+const currentSceneNumber = 0;
 
 // let primaryAudio = loadSound('SB03_01')
 // let titleAudio = loadSound('SB03_02')
 
-document.title = "Trace Letter " + letterTurnList[currentSceneNumber]
+// document.title = "Trace Letter " + letterTurnList[currentSceneNumber]
 
 let bodyAudio1 = loadSound('A/SB01_01') //explain voice
 let bodyAudio2 = loadSound('A/SB01_02')   //clap voice

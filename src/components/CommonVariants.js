@@ -211,7 +211,7 @@ export const lowerLetterPosList = [
     {
         highlight: [
             { s: 0.15, l: 0.418, t: 0.27 },
-            { s: 0.15, l: 0.418, t: 0.27 },
+            { s: 0.15, l: 0.418, t: 0.27 }
         ],
 
         layout: { s: 0.153, l: 0.418, t: 0.261 },

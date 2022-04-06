@@ -67,13 +67,6 @@ const App = ({ geo, _setBackground, __controlBacksound, _startTransition,
   }
 
   function setFomart(sceneNum) {
-    if (sceneNum == 1 && musicRef.current.className != 'commonButton') {
-      musicRef.current.className = 'introText'
-      setTimeout(() => {
-        musicRef.current.className = 'commonButton'
-      }, 1000);
-
-    }
     setIndex(sceneNum);
     changeBackgroundImage(sceneNum);
   }
@@ -82,6 +75,10 @@ const App = ({ geo, _setBackground, __controlBacksound, _startTransition,
     nextFunc: () => {
       scaleSceneRef.current.playGame()
       // setFomart(1)
+      musicRef.current.className = 'introText'
+      setTimeout(() => {
+        musicRef.current.className = 'commonButton'
+      }, 1000);
       _hideIntroTitle()
     },
     showMusicBtn: () => {
