@@ -166,10 +166,10 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
 
         audioList.bodyAudio1.src = returnVoicePath(0, explainVoices[0])
 
-        // drawingPanel.current.className = 'hideObject'
+        drawingPanel.current.className = 'hideObject'
         markParentRef.current.className = 'hideObject'
         subObjectsRef.current.className = 'hideObject'
-        animationRef.current.className = 'hideObject'
+        // animationRef.current.className = 'hideObject'
         lowerCaseRef.current.className = 'hideObject'
 
         new Phaser.Game(highlightGameConfig)
@@ -190,7 +190,6 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
         setRepeatAudio(audioList.bodyAudio1)
         // showingDrawingPanel();
 
-     
 
 
         return () => {
@@ -1288,7 +1287,7 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
         // var fs = this.add.circle(firstPos.x, firstPos.y, 3, 0x000000, 0.5)
         path = new Phaser.Curves.Path(firstPos.x, firstPos.y);
 
-        this.input.on('pointerdown', function (pointer) {
+        this.input.on('pointerdown1', function (pointer) {
 
             posList.push({ x: pointer.x, y: pointer.y })
 
