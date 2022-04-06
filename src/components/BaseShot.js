@@ -127,9 +127,8 @@ export default function BaseShot() {
     }
 
     function hideIntroTitle() {
-        // refIntroText.current.style.left = geometry.left + -1 * geometry.width + "px"
-        // refIntroText.current.className = 'hide'
-        playGameBtn.current.className = 'hide'
+        refIntroText.current.className = 'disappear'
+        playGameBtn.current.className = 'disappear'
 
     }
 
@@ -142,7 +141,7 @@ export default function BaseShot() {
     }
 
     function showIntroTitle() {
-        // refIntroText.current.className = 'introText'
+        refIntroText.current.className = 'introText'
 
         setTimeout(() => {
             playGameBtn.current.className = 'introText'
@@ -365,19 +364,20 @@ export default function BaseShot() {
                     baseGeo={backgroundSize} _setBackground={setBackground} />
             </div>
 
-            {/* <div
+            <div
                 ref={refIntroText}
+                className='hideObject'
                 style={{
-                    position: "fixed", width: geometry.width * 0.5,
-                    left: geometry.width * 0.35 + geometry.left
-                    , top: (geometry.height * 0.15 + geometry.top) + "px",
+                    position: "fixed", width: geometry.width * 0.4,
+                    left: geometry.width * 0.3+ geometry.left
+                    , top: (geometry.height * 0.1 + geometry.top) + "px",
                     pointerEvents: 'none',
                     userSelect: 'none'
                 }}>
                 <img draggable={false} width={"100%"}
-                    src={prePathUrl() + "images/SB01_Intro_Page.svg"}
+                    src={prePathUrl() + "images/BG/SB01_Intro_Page_Title.svg"}
                 />
-            </div> */}
+            </div>
 
 
             <div
@@ -388,7 +388,7 @@ export default function BaseShot() {
                     position: "fixed", width: geometry.width * 0.1 + "px",
                     height: geometry.width * 0.1 + "px",
                     right: geometry.width * 0.45 + geometry.left + "px"
-                    , top: geometry.height * 0.65 + geometry.top + "px"
+                    , top: geometry.height * 0.7 + geometry.top + "px"
                     , cursor: "pointer",
                     userSelect: 'none',
                 }}>
