@@ -1518,7 +1518,7 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
                                     t: value.t,
                                     l: value.l
                                 }}
-                                // className={'hideObject'}
+                                className={'hideObject'}
                                 url={lowerPrepath + 'Arrow_0' + (index + 1) + '.svg'}
                             />
                         )
