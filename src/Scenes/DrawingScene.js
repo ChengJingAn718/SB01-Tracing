@@ -1210,6 +1210,7 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
 
                                             if (currentFirstPosList[letterNum][stepCount].letter_start != null
                                                 && currentFirstPosList[letterNum][stepCount].letter_start) {
+
                                                 if (isLowerDrawing) {
                                                     lowerHighlightRefList[highCurrentNum].current.setClass('hideObject')
                                                     highCurrentNum++

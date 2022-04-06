@@ -277,7 +277,7 @@ export const lowerFirstPosList = [
     //k
     [
         { x: 569, y: 164 },
-        { x: 709, y: 368 },
+        { x: 709, y: 368, letter_start: true },
     ],
 ]
 export const lowerMovePath = [
@@ -1515,7 +1515,7 @@ export const lineWidthList =
     [
         75, 75, 87, 75,//D
         75, 73,//F
-        81, 73, 70, 75, 70, //K
+        81, 73, 70, 75, 74, //K
         75, 80, 75, 80, 75, 73 //Q
         , 72, 80, //S
         70, 75, //V
@@ -1527,7 +1527,7 @@ export const lowerLineWidthList =
     [
         75, 62, 75, 60,//D
         75, 50,//F
-        60, 55, 70, 75, 53, //K
+        60, 55, 70, 75, 56, //K
         75, 80, 75, 80, 75, 73 //Q
         , 72, 80, //S
         70, 75, //V
