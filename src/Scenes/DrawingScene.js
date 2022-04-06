@@ -184,13 +184,14 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
 
         parentObject.current.className = 'aniObject'
 
-
         // reviewFunc()
 
         setRepeatAudio(audioList.bodyAudio1)
         // showingDrawingPanel();
 
-
+        // setTimeout(() => {
+        //     clickLowerCase();
+        // }, 1000);
 
         return () => {
             currentImgNumOriginal = 0;
@@ -261,6 +262,7 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
     const clickLowerCase = () => {
         isLowerDrawing = true;
         isLowerCaseShow = false;
+        // 14
 
         drawingRef.current.className = 'disappear'
         lowerCaseRef.current.className = 'disappear'
@@ -290,7 +292,10 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
             setTimeout(() => {
                 drawingRef.current.className = 'appear'
 
-                lowerHighlightRefList[0].current.setClass('appear')
+                if (letterNum == 14)
+                    lowerHighlightRefList.map(item => item.current.setClass('appear'))
+                else
+                    lowerHighlightRefList[0].current.setClass('appear')
                 lowerOutlineRefList[0].current.setClass('appear')
 
                 curve = new Phaser.Curves.Spline([currentFirstPosList[letterNum][0].x, currentFirstPosList[letterNum][0].y]);
@@ -452,6 +457,7 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
         const firstSubPosList = [
             [674, 300, 50, 110, 'rect'],
             [658, 230, 50, 100, 'rect'],
+            [625, 260, 80, 150, 'rect'],
         ]
 
         const lastSubPosList = [
@@ -536,11 +542,9 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
 
                             graphics.lineStyle(100, brushColorList[repeatStep]);
                             if (isLowerDrawing)
-                                lowerHighlightRefList[lowerHighlightRefList.length - 1].current.setClass('disappear')
+                                lowerHighlightRefList.map(item => item.current.setClass('disappear'))
                             else
-                                highlightRefList[highlightRefList.length - 1].current.setClass('disappear')
-
-
+                                highlightRefList.map(item => item.current.setClass('disappear'))
 
                             // alert('finished')
                             circleObj.y = 10000;
@@ -965,15 +969,12 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
                                     if (stepCount == currentMovePath[letterNum].length - 1) {
                                         if (isSubExist)
                                             subObject.visible = false
-
-
                                         graphics.lineStyle(100, brushColorList[repeatStep]);
+
                                         if (isLowerDrawing)
-                                            lowerHighlightRefList[lowerHighlightRefList.length - 1].current.setClass('disappear')
+                                            lowerHighlightRefList.map(item => item.current.setClass('disappear'))
                                         else
-                                            highlightRefList[highlightRefList.length - 1].current.setClass('disappear')
-
-
+                                            highlightRefList.map(item => item.current.setClass('disappear'))
 
                                         // alert('finished')
                                         circleObj.y = 10000;
@@ -1287,7 +1288,7 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
         // var fs = this.add.circle(firstPos.x, firstPos.y, 3, 0x000000, 0.5)
         path = new Phaser.Curves.Path(firstPos.x, firstPos.y);
 
-        this.input.on('pointerdown1', function (pointer) {
+        this.input.on('pointerdown', function (pointer) {
 
             posList.push({ x: pointer.x, y: pointer.y })
 
