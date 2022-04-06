@@ -16,7 +16,7 @@ let backAudio = loadSound('bMusic', true)
 backAudio.loop = true;
 backAudio.volume = .1;
 
-const currentSceneNumber = 1;
+const currentSceneNumber = 0;
 
 // let primaryAudio = loadSound('SB03_01')
 // let titleAudio = loadSound('SB03_02')
@@ -129,7 +129,6 @@ export default function BaseShot() {
     function hideIntroTitle() {
         refIntroText.current.className = 'disappear'
         playGameBtn.current.className = 'disappear'
-
     }
 
     function starGame() {

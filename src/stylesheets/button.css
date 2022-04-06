@@ -15,12 +15,13 @@
 
 .appear {
   opacity: 1;
-  transition: 0.3s ease-in ;
+  transition: 0.3s ease-in;
 }
 
 .disappear {
   opacity: 0;
   transition: 0.3s ease-in;
+  pointer-events: none;
 }
 
 .showItem {
@@ -31,7 +32,9 @@
 
 
 @keyframes showItemAni {
-  0%, 50% {
+
+  0%,
+  50% {
     transform: scale(0.75);
     opacity: 0;
   }
@@ -72,6 +75,6 @@
   pointer-events: none !important;
 }
 
-.item-disable{
+.item-disable {
   opacity: 0.8;
 }
