@@ -13,7 +13,7 @@ import {
     maskInfoList, iconPathList, animtionList, showingLayoutList, titleList, letterPosList,
     lineWidthList, firstPosList, movePath, subObjectList, brushColorList, letterTurnList, lowerLineWidthList,
     sparkPosLeft, textInfoList, lowerMaskInfoList, lowerLetterPosList,
-    lowerMovePath, lowerFirstPosList
+    lowerMovePath, lowerFirstPosList, lowerIconWidth
 } from "../components/CommonVariants"
 
 const moveObjList = []
@@ -166,10 +166,10 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
 
         audioList.bodyAudio1.src = returnVoicePath(0, explainVoices[0])
 
-        drawingPanel.current.className = 'hideObject'
+        // drawingPanel.current.className = 'hideObject'
         markParentRef.current.className = 'hideObject'
         subObjectsRef.current.className = 'hideObject'
-        // animationRef.current.className = 'hideObject'
+        animationRef.current.className = 'hideObject'
         lowerCaseRef.current.className = 'hideObject'
 
         new Phaser.Game(highlightGameConfig)
@@ -183,9 +183,14 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
         playAutoAnimation()
 
         parentObject.current.className = 'aniObject'
-        
+
 
         // reviewFunc()
+
+        setRepeatAudio(audioList.bodyAudio1)
+        // showingDrawingPanel();
+
+     
 
 
         return () => {
@@ -237,6 +242,7 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
             drawingPanel.current.className = 'showObject'
             markParentRef.current.className = 'showObject'
             lowerCaseRef.current.className = 'commonButton'
+            showingImg.current.className = 'showObject'
             isTracingStarted = true;
         }, 300);
         subObjectsRef.current.className = 'appear'
@@ -263,18 +269,20 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
         highlightRefList.map(item => item.current.setClass('disappear'))
 
         if (!isFirefox) {
+            moveObjList[repeatStep].setScale(lowerIconWidth[letterNum] * 0.75)
             moveObjList[repeatStep].visible = false
         }
         else {
             iconRef.current.setClass('disappear')
+            iconRef.current.setStyle({ transform: 'scale(' + lowerIconWidth[letterNum] + ')' })
         }
 
         currentMovePath = isLowerDrawing ? lowerMovePath : movePath
         currentFirstPosList = isLowerDrawing ? lowerFirstPosList : firstPosList
         currentPath = currentMovePath[letterNum][stepCount]
-        currentlineWidthList = isLowerDrawing ? lineWidthList : lowerLineWidthList
+        currentlineWidthList = !isLowerDrawing ? lineWidthList : lowerLineWidthList
         currentLingLength = currentlineWidthList[letterNum]
-        
+
         setTimeout(() => {
             drawingRef.current.style.WebkitMaskImage = 'url("./images/' + lowerPrepath + 'Gray.svg")'
             drawingRef.current.style.WebkitMaskPosition = lowerMaskInfoList[letterNum].position
@@ -444,6 +452,7 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
 
         const firstSubPosList = [
             [674, 300, 50, 110, 'rect'],
+            [658, 230, 50, 100, 'rect'],
         ]
 
         const lastSubPosList = [
@@ -508,6 +517,303 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
                     audioList.bodyAudio1.currentTime = 0;
                     timerList.map(timer => clearTimeout(timer))
                     stopRepeatAudio();
+
+                    if (currentFirstPosList[letterNum][stepCount].p != null && currentFirstPosList[letterNum][stepCount].p == true) {
+
+                        isMoving = false;
+
+                        nearestStepNum = 0;
+                        curve.addPoint(
+                            currentFirstPosList[letterNum][stepCount].x,
+                            currentFirstPosList[letterNum][stepCount].y);
+                        currentPath.map(path => {
+                            curve.addPoint(path.x, path.y);
+                        })
+                        graphics.lineStyle(100, brushColorList[repeatStep]);
+                        if (stepCount == currentMovePath[letterNum].length - 1) {
+                            if (isSubExist)
+                                subObject.visible = false
+
+
+                            graphics.lineStyle(100, brushColorList[repeatStep]);
+                            if (isLowerDrawing)
+                                lowerHighlightRefList[lowerHighlightRefList.length - 1].current.setClass('disappear')
+                            else
+                                highlightRefList[highlightRefList.length - 1].current.setClass('disappear')
+
+
+
+                            // alert('finished')
+                            circleObj.y = 10000;
+                            if (!isFirefox) {
+                                moveObjList[repeatStep].y = 10000
+                                moveObjList[repeatStep].setScale(0.75)
+
+
+                            }
+                            else {
+
+                                iconRef.current.setClass('hideObject')
+                                iconRef.current.setStyle({ transform: 'scale(1)' })
+                                if (repeatStep < 2)
+                                    iconRef.current.setUrl('SB01/SB01_Icons/' + iconPathList[letterNum][repeatStep + 1] + '.svg')
+                            }
+
+                            curves.forEach(function (c) {
+                                c.draw(graphics, 100);
+                            });
+
+                            subCurves.forEach(function (c) {
+                                c.draw(subGraphics, 100);
+                            });
+
+
+                            if (isLowerDrawing) {
+                                lowerOutlineRefList[0].current.setClass('disappear')
+                                lowerOutlineRefList[1].current.setClass('appear')
+
+                            }
+
+                            if (isSubExist && currentFirstPosList[letterNum][stepCount].isSub)
+                                subObject.visible = false;
+
+                            markRefList[repeatStep].current.setUrl("SB01/ProgressBar/SB01_Yellow_Star_Icon.svg")
+                            audioList.audioTing.play();
+
+                            if (repeatStep < 2)
+                                audioList.bodyAudio1.src = returnVoicePath(0, explainVoices[repeatStep + 2])
+
+                            showingImg.current.style.transform = 'scale(1.2)'
+
+                            setTimeout(() => {
+
+                                let waitTime = wordVoiceList[repeatStep].duration * 1000
+
+                                wordVoiceList[repeatStep].play();
+
+                                setTimeout(() => {
+
+                                    showingImg.current.style.transform = 'scale(1)'
+
+                                    if (repeatStep < 2)
+                                        showingImg.current.className = 'disappear'
+
+                                    setTimeout(() => {
+                                        if (repeatStep < 2) {
+                                            let timeDur = 10;
+                                            if (!isFirefox) {
+                                                moveObjList[repeatStep].visible = false
+                                            }
+                                            else {
+                                                iconRef.current.setClass('disappear')
+                                            }
+
+                                            if (isLowerDrawing) {
+                                                lowerOutlineRefList.map(item =>
+                                                    item.current.setClass('disappear'))
+                                                drawingRef.current.className = 'disappear'
+                                                lowerHighlightRefList.map(item =>
+                                                    item.current.setClass('disappear'))
+
+                                                setTimeout(() => {
+                                                    drawingRef.current.style.WebkitMaskImage = 'url("' + preName + 'Grey.svg")'
+                                                    drawingRef.current.style.WebkitMaskPosition = maskInfoList[letterNum].position
+                                                    drawingRef.current.style.WebkitMaskSize = maskInfoList[letterNum].size
+                                                    setTimeout(() => {
+                                                        drawingRef.current.className = 'appear'
+                                                    }, 700);
+
+                                                }, 300);
+                                                timeDur = 1000
+                                            }
+
+                                            setTimeout(() => {
+                                                highlightRefList.map((highlight, index) => {
+                                                    if (index > 0)
+                                                        highlight.current.setClass('disappear')
+                                                    else
+                                                        highlight.current.setClass('appear')
+                                                })
+                                                lowerCaseRef.current.className = 'appear'
+                                                setTimeout(() => {
+                                                    lowerCaseRef.current.className = 'commonButton'
+                                                }, 300);
+
+                                                outLineRefList[repeatStep].current.setClass('disappear')
+
+                                                isLowerCaseShow = true
+                                                isLowerDrawing = false;
+                                                currentMovePath = isLowerDrawing ? lowerMovePath : movePath
+                                                currentFirstPosList = isLowerDrawing ? lowerFirstPosList : firstPosList
+
+                                                // fomart values....
+
+                                                highCurrentNum = 0
+                                                currentLingLength = currentlineWidthList[letterNum]
+                                                stepCount = 0;
+
+                                                currentPath = currentMovePath[letterNum][stepCount]
+
+                                                repeatStep++;
+                                                rememberX = currentPath[0].x
+
+                                                showingImg.current.className = 'appear'
+                                                outLineRefList[repeatStep].current.setClass('appear')
+
+                                                isFirst = true;
+                                                nearestStepNum = 0;
+
+                                                optimizedPosition = currentMovePath[letterNum][0][0]
+                                                //.............
+
+                                                circleObj.x = optimizedPosition.x;
+                                                circleObj.y = optimizedPosition.y;
+
+                                                lastObjectList.map(obj => {
+                                                    if (obj != null) {
+                                                        obj.visible = false;
+                                                        obj.setFillStyle(brushColorList[repeatStep], 1)
+                                                    }
+                                                })
+                                                firstObjectList.map(obj => {
+                                                    if (obj != null) {
+                                                        obj.visible = false;
+                                                        obj.setFillStyle(brushColorList[repeatStep], 1)
+                                                    }
+                                                })
+
+                                                if (!isFirefox) {
+                                                    moveObjList[repeatStep].setScale(0.75)
+
+                                                    setTimeout(() => {
+                                                        moveObjList[repeatStep].visible = true
+                                                        moveObjList[repeatStep].x = optimizedPosition.x;
+                                                        moveObjList[repeatStep].y = optimizedPosition.y
+                                                    }, 150);
+
+                                                }
+                                                else {
+                                                    iconRef.current.setStyle({ transform: 'scale(1)' })
+                                                    iconRef.current.setPosInfo({
+                                                        l: circleObj.x / 1280 - 0.045,
+                                                        t: circleObj.y / 720 - 0.08,
+                                                    })
+                                                    iconRef.current.setClass('appear')
+                                                }
+
+                                                if (isSubExist)
+                                                    subObject.visible = true
+
+                                                graphics.clear();
+                                                subGraphics.clear();
+
+                                                curve = new Phaser.Curves.Spline([currentFirstPosList[letterNum][0].x, currentFirstPosList[letterNum][0].y]);
+                                                curves = []
+
+
+                                                subCurve = new Phaser.Curves.Spline([currentPath[0].x, currentPath[0].y]);
+                                                subCurves = []
+
+                                                timerList[0] = setTimeout(() => {
+                                                    audioList.bodyAudio1.play();
+                                                    startRepeatAudio();
+                                                }, 500);
+                                            }, timeDur);
+
+
+                                        }
+                                        else {
+                                            setTimeout(() => {
+                                                reviewFunc();
+                                                stopRepeatAudio();
+                                            }, 1000);
+
+                                        }
+
+                                        if (currentImgNumOriginal < 2) {
+                                            currentImgNumOriginal++
+                                            setRendering(currentImgNumOriginal);
+                                        }
+                                    }, 500);
+                                }, waitTime + 3000);
+                            }, 1000);
+                        }
+                        else {
+
+                            if (currentFirstPosList[letterNum][stepCount].lastObj != null) {
+                                lastObjectList[currentFirstPosList[letterNum][stepCount].lastObj].visible = true
+                            }
+
+                            curves.forEach(function (c) {
+                                c.draw(graphics, 100);
+                            });
+
+                            subCurves.forEach(function (c) {
+                                c.draw(subGraphics, 100);
+                            });
+
+                            circleObj.off('pointermove', moveFunc, this);
+
+                            stepCount++
+
+                            currentPath = currentMovePath[letterNum][stepCount]
+                            rememberX = currentPath[0].x
+
+                            if (isSubExist && currentFirstPosList[letterNum][stepCount].isSub)
+                                subObject.visible = false;
+
+                            circleObj.x = currentMovePath[letterNum][stepCount][0].x;
+                            circleObj.y = currentMovePath[letterNum][stepCount][0].y;
+
+                            if (!isFirefox) {
+                                moveObjList[repeatStep].x = currentMovePath[letterNum][stepCount][0].x;
+                                moveObjList[repeatStep].y = currentMovePath[letterNum][stepCount][0].y;
+                            }
+
+                            else {
+
+                                iconRef.current.setPosInfo({
+                                    l: circleObj.x / 1280 - 0.045,
+                                    t: circleObj.y / 720 - 0.08,
+                                })
+                            }
+
+
+                            setTimeout(() => {
+
+                                if (currentFirstPosList[letterNum][stepCount].letter_start != null
+                                    && currentFirstPosList[letterNum][stepCount].letter_start) {
+
+                                    if (isLowerDrawing) {
+                                        lowerHighlightRefList[highCurrentNum].current.setClass('hideObject')
+                                        highCurrentNum++
+                                        lowerHighlightRefList[highCurrentNum].current.setClass('appear')
+                                    }
+                                    else {
+                                        highlightRefList[highCurrentNum].current.setClass('hideObject')
+                                        highCurrentNum++
+                                        highlightRefList[highCurrentNum].current.setClass('appear')
+                                    }
+                                }
+
+                                curve = new Phaser.Curves.Spline([currentFirstPosList[letterNum][stepCount].x, currentFirstPosList[letterNum][stepCount].y]);
+                                curves = []
+
+                                subCurve = new Phaser.Curves.Spline([currentPath[0].x, currentPath[0].y]);
+                                subCurves = []
+
+                                HeavyLengthList.map(value => {
+                                    if (value[0] == letterNum && value[1] == stepCount) {
+                                        currentLingLength = 90
+                                    }
+                                })
+
+                                curve.addPoint(circleObj.x, circleObj.y);
+
+                            }, 200);
+                        }
+
+                    }
                 }
             }
         }, this);
@@ -616,26 +922,26 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
 
                             let isPassable = true;
 
-                            // if (currentPath.length == 2)
-                            //     isPassable = true;
+                            if (currentPath.length == 2)
+                                isPassable = true;
 
-                            // let fIndex = nearestStepNum > pairIndex ? pairIndex : nearestStepNum
-                            // let tIndex = nearestStepNum > pairIndex ? nearestStepNum : pairIndex
+                            let fIndex = nearestStepNum > pairIndex ? pairIndex : nearestStepNum
+                            let tIndex = nearestStepNum > pairIndex ? nearestStepNum : pairIndex
 
-                            // if (currentPath.length > 2 &&
-                            //     currentPath[fIndex] != null && !isPassable
-                            //     && currentPath[tIndex] != null) {
+                            if (currentPath.length > 2 &&
+                                currentPath[fIndex] != null && !isPassable
+                                && currentPath[tIndex] != null) {
 
-                            //     if (currentPath[fIndex].x < currentPath[tIndex].x)
-                            //         rememberIsLeft = false
-                            //     else if (currentPath[fIndex].x > currentPath[tIndex].x)
-                            //         rememberIsLeft = true
+                                if (currentPath[fIndex].x < currentPath[tIndex].x)
+                                    rememberIsLeft = false
+                                else if (currentPath[fIndex].x > currentPath[tIndex].x)
+                                    rememberIsLeft = true
 
-                            //     if ((x > rememberX && !rememberIsLeft) ||
-                            //         currentPath[fIndex].x == currentPath[tIndex].x
-                            //         || (x < rememberX && rememberIsLeft))
-                            //         isPassable = true;
-                            // }
+                                if ((x > rememberX && !rememberIsLeft) ||
+                                    currentPath[fIndex].x == currentPath[tIndex].x
+                                    || (x < rememberX && rememberIsLeft))
+                                    isPassable = true;
+                            }
 
 
                             if (isPassable) {
@@ -726,9 +1032,11 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
                                                         let timeDur = 10;
                                                         if (!isFirefox) {
                                                             moveObjList[repeatStep].visible = false
+                                                            moveObjList[repeatStep].setScale(0.75 * lowerIconWidth[letterNum])
                                                         }
                                                         else {
                                                             iconRef.current.setClass('disappear')
+                                                            iconRef.current.setStyle({ transform: 'scale(' + lowerIconWidth[letterNum] + ')' })
                                                         }
 
                                                         if (isLowerDrawing) {
@@ -768,7 +1076,7 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
                                                             isLowerDrawing = false;
                                                             currentMovePath = isLowerDrawing ? lowerMovePath : movePath
                                                             currentFirstPosList = isLowerDrawing ? lowerFirstPosList : firstPosList
-
+                                                            currentlineWidthList = isLowerDrawing ? lowerLineWidthList : lineWidthList
                                                             // fomart values....
 
                                                             highCurrentNum = 0
@@ -980,7 +1288,7 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
         // var fs = this.add.circle(firstPos.x, firstPos.y, 3, 0x000000, 0.5)
         path = new Phaser.Curves.Path(firstPos.x, firstPos.y);
 
-        this.input.on('pointerdown1', function (pointer) {
+        this.input.on('pointerdown', function (pointer) {
 
             posList.push({ x: pointer.x, y: pointer.y })
 
@@ -1210,7 +1518,7 @@ export default function Scene({ nextFunc, _geo, startTransition, audioList, curr
                                     t: value.t,
                                     l: value.l
                                 }}
-                                className={'hideObject'}
+                                // className={'hideObject'}
                                 url={lowerPrepath + 'Arrow_0' + (index + 1) + '.svg'}
                             />
                         )

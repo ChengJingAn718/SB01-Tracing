@@ -16,7 +16,7 @@ let backAudio = loadSound('bMusic', true)
 backAudio.loop = true;
 backAudio.volume = .1;
 
-const currentSceneNumber = 1;
+const currentSceneNumber = 0;
 
 // let primaryAudio = loadSound('SB03_01')
 // let titleAudio = loadSound('SB03_02')
@@ -252,7 +252,7 @@ export default function BaseShot() {
             audioWoo.play()
         }, 300);
         transitionObject.current.style.display = 'inline-block';
-        if (innerHeight / innerWidth > 700 / 1024) {
+        if (window.innerHeight / window.innerWidth > 700 / 1024) {
             transitionObject.current.className = 'changeTran1';
         }
         else
